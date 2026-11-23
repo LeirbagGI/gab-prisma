@@ -83,6 +83,7 @@ export const App: React.FC = () => {
   const historia = useRef<{passado: any[]; futuro: any[]}>({passado: [], futuro: []});
   const player = useRef<PlayerRef>(null);
   const antes = useRef<any>({});
+  const destinoRef = useRef<any>(null); // arquivo escolhido na janela de salvar do Chrome
 
   const carregar = useCallback(async () => {
     const d = await fetch(`/api/projeto/${PROJETO}`).then((r) => r.json());
@@ -90,7 +91,7 @@ export const App: React.FC = () => {
     setVer((v) => v + 1);
   }, []);
   useEffect(() => { carregar(); }, [carregar]);
-  const avisar = (m: string) => { setToast(m); setTimeout(() => setToast(''), 3200); };
+  const avisar = (m: string) => { setToast(m); setTimeout(() => setToast((t) => (t === m ? "" : t)), 5000); };
 
   // agentes do servidor: consulta a cada segundo; quando um termina, recarrega o que ele mudou
   useEffect(() => {
@@ -104,7 +105,20 @@ export const App: React.FC = () => {
             // a voz pedida pelo motor ao vivo ele mesmo recarrega; recarregar aqui de novo remontava o player no meio da
             // reprodução e a linha do tempo voltava ao começo (Gabriel, 23/11: "takes repetindo o começo")
             if ((nome === 'voz' && Date.now() - ((window as any).__vozDoMotor || 0) > 120000) || nome.startsWith('personagem:')) { carregar(); avisar(nome === 'voz' ? 'Voz realinhada: cenas presas à voz nova' : `Personagem ${nome.split(':')[1]} pronto`); }
-            if (nome === 'exportar') avisar('Vídeo salvo em: ' + (st.destino || 'saida/' + PROJETO + '.mp4'));
+            if (nome === 'exportar') {
+              const h = destinoRef.current;
+              if (h) {
+                destinoRef.current = null;
+                avisar('Gravando o vídeo onde você escolheu…');
+                (async () => {
+                  try {
+                    const b = await fetch(`/api/video/${PROJETO}?t=${Date.now()}`).then((r) => { if (!r.ok) throw new Error('vídeo não encontrado'); return r.blob(); });
+                    const w = await h.createWritable(); await w.write(b); await w.close();
+                    avisar(`Vídeo salvo: ${h.name}`);
+                  } catch (e: any) { avisar('Erro ao salvar o vídeo: ' + (e?.message || e)); }
+                })();
+              } else avisar('Vídeo salvo em: ' + (st.destino || 'saida/' + PROJETO + '.mp4'));
+            }
           } else avisar(`Agente ${nome} falhou — veja o registro`);
         }
       }
@@ -183,10 +197,24 @@ export const App: React.FC = () => {
 
   const exportar = async () => {
     if (dadosRef.current?.semVoz) { avisar('Falta a voz: envie a narração antes de exportar'); return; }
-    avisar('Escolha onde salvar o vídeo (janela do Mac)…');
-    const r = await fetch(`/api/exportar/${PROJETO}`, {method: 'POST'}).then((r) => r.json());
-    if (!r.ok) avisar(r.motivo === 'cancelado' ? 'Exportação cancelada' : 'Já tem uma exportação rodando');
-    else avisar('Exportando para: ' + r.destino);
+    try {
+      // janela "Salvar como" do próprio Chrome, aberta dentro do estúdio (a do Mac abria atrás da janela — 23/11)
+      if ('showSaveFilePicker' in window) {
+        let h: any;
+        try {
+          h = await (window as any).showSaveFilePicker({suggestedName: `reel-${PROJETO}-${new Date().toLocaleString('sv-SE').slice(0, 16).replace(' ', '-').replace(':', 'h')}.mp4`, types: [{description: 'Vídeo MP4', accept: {'video/mp4': ['.mp4']}}]});
+        } catch { avisar('Exportação cancelada'); return; }
+        destinoRef.current = h;
+        const r = await fetch(`/api/exportar/${PROJETO}?navegador=1`, {method: 'POST'}).then((r) => r.json());
+        if (!r.ok) { destinoRef.current = null; avisar(r.motivo === 'ocupado' ? 'Já tem uma exportação rodando' : 'Não consegui exportar'); return; }
+        avisar(`Exportando… vai salvar como ${h.name}`);
+        return;
+      }
+      avisar('Escolha onde salvar o vídeo (janela do Mac)…');
+      const r = await fetch(`/api/exportar/${PROJETO}`, {method: 'POST'}).then((r) => r.json());
+      if (!r.ok) avisar(r.motivo === 'cancelado' ? 'Exportação cancelada' : 'Já tem uma exportação rodando');
+      else avisar('Exportando para: ' + r.destino);
+    } catch (e: any) { avisar('Erro ao exportar: ' + (e?.message || e)); }
   };
   const novaVoz = () => {
     const inp = document.createElement('input');

@@ -125,10 +125,11 @@ function api() {
             const memo = join(RAIZ, 'trabalho', 'ultima-pasta-exportar.txt');
             const pastaIni = existsSync(memo) ? readFileSync(memo, 'utf8').trim() : (DRIVE && existsSync(DRIVE) ? DRIVE : join(process.env.HOME, 'Desktop'));
             const nomeIni = `reel-${r.projeto}-${new Date().toLocaleString('sv-SE').slice(0, 16).replace(' ', '-').replace(':', 'h')}.mp4`;
-            const destino = await new Promise((ok) => {
+            const pelaJanela = u.searchParams.get('navegador') === '1'; // o próprio estúdio pergunta onde salvar
+            const destino = pelaJanela ? join(RAIZ, 'saida', `${r.projeto}.mp4`) : await new Promise((ok) => {
               const p = spawn('osascript', ['-e', `tell application "System Events" to activate`, '-e',
                 `tell application "System Events" to return POSIX path of (choose file name with prompt "Onde salvar o vídeo exportado?" default name "${nomeIni}" default location (POSIX file "${pastaIni.replace(/"/g, '\\"')}"))`]);
-              let out = ''; p.stdout.on('data', (b) => (out += b)); p.on('close', (c) => ok(c === 0 ? out.trim() : ''));
+              let out = '', err = ''; p.stdout.on('data', (b) => (out += b)); p.stderr.on('data', (b) => (err += b)); p.on('close', (c) => { if (c !== 0) log('exportar', 'janela de salvar: ' + err.trim().slice(0, 200)); ok(c === 0 ? out.trim() : ''); });
             });
             if (!destino) return json(res, {ok: false, motivo: 'cancelado'});
             const final = destino.toLowerCase().endsWith('.mp4') ? destino : destino + '.mp4';
@@ -138,6 +139,7 @@ function api() {
             const ok = rodar('exportar', 'node', ['ferramentas/render.mjs', roteiroArq(nome), saida], {
               progresso: (l) => { const m = l.match(/Rendered (\d+)\/(\d+)/); return m ? +m[1] / +m[2] : null; },
               aoFim: () => {
+                if (pelaJanela) { agentes.exportar.destino = ''; log('exportar', 'render pronto: o estúdio grava onde foi escolhido'); return; }
                 try { copyFileSync(saida, final); agentes.exportar.destino = final; log('exportar', `salvo em: ${final}`); spawn('open', ['-R', final]); }
                 catch (e) { log('exportar', 'não consegui salvar em ' + final + ': ' + e.message); }
               },
@@ -172,6 +174,13 @@ function api() {
           }
           if (rota === 'agentes') return json(res, {agentes, registro: registro.slice(-60)});
           if (rota === 'fonte') return json(res, {texto: readFileSync(join(RAIZ, 'src', 'Filme.tsx'), 'utf8')});
+          if (rota === 'video') {
+            const r = lerJSON(roteiroArq(nome));
+            const f = join(RAIZ, 'saida', `${r.projeto}.mp4`);
+            if (!existsSync(f)) return json(res, {erro: 'vídeo não existe'}, 404);
+            res.setHeader('content-type', 'video/mp4');
+            return res.end(readFileSync(f));
+          }
           if (rota === 'abrir') { spawn('open', ['-R', join(RAIZ, 'saida')]); return json(res, {ok: true}); }
           // A janela do estúdio (Chrome próprio) obedece aqui: o Claude troca o endereço dela sem abrir outra
           if (rota === 'janela') {
