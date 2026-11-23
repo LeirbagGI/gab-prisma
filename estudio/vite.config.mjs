@@ -118,15 +118,31 @@ function api() {
             return json(res, {ok: rodar(`personagem:${chave}`, 'zsh', ['ferramentas/personagens.sh', roteiroArq(nome), chave]), chave});
           }
           if (rota === 'exportar') {
+            // Gabriel, 23/11: "quando clicar no botão pra exportar eu decido aonde no meu PC eu quero exportar".
+            // Abre a janela "Salvar como" do Mac; o vídeo vai só para onde ele escolher.
+            if (agentes.exportar?.estado === 'trabalhando') return json(res, {ok: false, motivo: 'ocupado'});
             const r = lerJSON(roteiroArq(nome));
+            const memo = join(RAIZ, 'trabalho', 'ultima-pasta-exportar.txt');
+            const pastaIni = existsSync(memo) ? readFileSync(memo, 'utf8').trim() : (DRIVE && existsSync(DRIVE) ? DRIVE : join(process.env.HOME, 'Desktop'));
+            const nomeIni = `reel-${r.projeto}-${new Date().toLocaleString('sv-SE').slice(0, 16).replace(' ', '-').replace(':', 'h')}.mp4`;
+            const destino = await new Promise((ok) => {
+              const p = spawn('osascript', ['-e', `tell application "System Events" to activate`, '-e',
+                `tell application "System Events" to return POSIX path of (choose file name with prompt "Onde salvar o vídeo exportado?" default name "${nomeIni}" default location (POSIX file "${pastaIni.replace(/"/g, '\\"')}"))`]);
+              let out = ''; p.stdout.on('data', (b) => (out += b)); p.on('close', (c) => ok(c === 0 ? out.trim() : ''));
+            });
+            if (!destino) return json(res, {ok: false, motivo: 'cancelado'});
+            const final = destino.toLowerCase().endsWith('.mp4') ? destino : destino + '.mp4';
+            try { mkdirSync(join(RAIZ, 'trabalho'), {recursive: true}); writeFileSync(memo, dirname(final)); } catch {}
             const saida = join(RAIZ, 'saida', `${r.projeto}.mp4`);
+            log('exportar', `vai salvar em: ${final}`);
             const ok = rodar('exportar', 'node', ['ferramentas/render.mjs', roteiroArq(nome), saida], {
               progresso: (l) => { const m = l.match(/Rendered (\d+)\/(\d+)/); return m ? +m[1] / +m[2] : null; },
               aoFim: () => {
-                try { if (DRIVE && existsSync(DRIVE)) { const d = join(DRIVE, `reel-prisma-${r.projeto}-${new Date().toLocaleString('sv-SE').slice(0, 16).replace(' ', '-').replace(':', 'h')}.mp4`); copyFileSync(saida, d); log('exportar', `copiado para o Drive: ${d.split('/').pop()}`); } } catch (e) { log('exportar', 'não copiei para o Drive: ' + e.message); }
+                try { copyFileSync(saida, final); agentes.exportar.destino = final; log('exportar', `salvo em: ${final}`); spawn('open', ['-R', final]); }
+                catch (e) { log('exportar', 'não consegui salvar em ' + final + ': ' + e.message); }
               },
             });
-            return json(res, {ok, saida});
+            return json(res, {ok, destino: final});
           }
           if (rota === 'acoes' && req.method === 'POST') {
             const lista = JSON.parse((await corpo(req)).toString());

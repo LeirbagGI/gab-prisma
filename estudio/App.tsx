@@ -104,7 +104,7 @@ export const App: React.FC = () => {
             // a voz pedida pelo motor ao vivo ele mesmo recarrega; recarregar aqui de novo remontava o player no meio da
             // reprodução e a linha do tempo voltava ao começo (Gabriel, 23/11: "takes repetindo o começo")
             if ((nome === 'voz' && Date.now() - ((window as any).__vozDoMotor || 0) > 120000) || nome.startsWith('personagem:')) { carregar(); avisar(nome === 'voz' ? 'Voz realinhada: cenas presas à voz nova' : `Personagem ${nome.split(':')[1]} pronto`); }
-            if (nome === 'exportar') avisar('Exportado: saida/' + PROJETO + '.mp4 (cópia no Drive)');
+            if (nome === 'exportar') avisar('Vídeo salvo em: ' + (st.destino || 'saida/' + PROJETO + '.mp4'));
           } else avisar(`Agente ${nome} falhou — veja o registro`);
         }
       }
@@ -183,8 +183,10 @@ export const App: React.FC = () => {
 
   const exportar = async () => {
     if (dadosRef.current?.semVoz) { avisar('Falta a voz: envie a narração antes de exportar'); return; }
+    avisar('Escolha onde salvar o vídeo (janela do Mac)…');
     const r = await fetch(`/api/exportar/${PROJETO}`, {method: 'POST'}).then((r) => r.json());
-    if (!r.ok) avisar('Já tem uma exportação rodando');
+    if (!r.ok) avisar(r.motivo === 'cancelado' ? 'Exportação cancelada' : 'Já tem uma exportação rodando');
+    else avisar('Exportando para: ' + r.destino);
   };
   const novaVoz = () => {
     const inp = document.createElement('input');

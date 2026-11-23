@@ -1,0 +1,393 @@
+{
+  "projeto": "gi-lean-construction",
+  "titulo": "Lean Construction com o Leo",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30
+  },
+  "cores": {
+    "destaque": "#EE7533",
+    "tinta": "#1A1A1A",
+    "suave": "#69727D",
+    "fundoClaro": "#F6F3EF",
+    "fundoForte": "#EE7533"
+  },
+  "estilo_personagem": "personagem 3D fofo estilo animação de cinema (clay/vinil macio, cantos arredondados), olhos grandes expressivos, bochechas rosadas, bracinhos e perninhas curtos, luz de estúdio suave, corpo inteiro, centralizado, sozinho, sem texto, sem chão, sem sombra projetada, fundo branco liso #FFFFFF",
+  "personagens": {
+    "leo-feliz": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, sorrindo largo e acenando com uma mão",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-explica": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, falando animado e apontando com a mão aberta para o lado, como quem explica no palco",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-pensa": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, pensativo, com a mão no queixo e olhando para cima",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-comemora": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, comemorando com os dois braços para cima, muito feliz",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-preocupado": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, preocupado, suando, olhando para o relógio de pulso, com a outra mão na cabeça",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-prancheta": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, organizado e confiante, segurando uma prancheta com checklist marcado (sem letras legíveis) e uma caneta",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-calendario": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, segurando um calendário de mesa grande com uma data circulada em laranja (sem números legíveis), sorrindo",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    }
+  },
+  "cenas": [
+    {
+      "id": "c01",
+      "fala": "Por que a obra para, se todo mundo está trabalhando?",
+      "personagem": "leo-preocupado",
+      "texto": "Obra parada",
+      "interface": null,
+      "fundo": "forte",
+      "ajuste": {
+        "movimento": "balanca",
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "obra",
+          "icone": "caixa"
+        },
+        {
+          "palavra": "para,",
+          "icone": "alerta",
+          "tom": "alerta"
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "fala": "Material parado, retrabalho, equipe esperando frente de serviço e atraso que vira custo.",
+      "personagem": "leo-pensa",
+      "texto": "Desperdício",
+      "interface": {
+        "tipo": "lista_riscada",
+        "itens": [
+          "Material parado",
+          "Retrabalho",
+          "Equipe esperando",
+          "Atraso"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "material",
+          "icone": "caixa"
+        },
+        {
+          "palavra": "retrabalho",
+          "icone": "x",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "esperando",
+          "icone": "relogio"
+        },
+        {
+          "palavra": "custo",
+          "icone": "dinheiro",
+          "tom": "alerta"
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "fala": "Isso é desperdício. E o Lean nasceu para eliminar desperdício, no Sistema Toyota de Produção.",
+      "personagem": "leo-explica",
+      "texto": "Lean",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Lean",
+        "linha": "Sistema Toyota de Produção",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "desperdício.",
+          "icone": "alerta",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "eliminar",
+          "icone": "x"
+        },
+        {
+          "palavra": "toyota",
+          "icone": "engrenagem",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "fala": "Em 1992, Lauri Koskela levou essa ideia para a construção.",
+      "personagem": null,
+      "texto": "Lean Construction",
+      "interface": {
+        "tipo": "numero",
+        "de": 1980,
+        "ate": 1992,
+        "rotulo": "Lean Construction",
+        "chips": [
+          "Lauri Koskela",
+          "construção"
+        ]
+      },
+      "fundo": "claro",
+      "marcas": [
+        {
+          "palavra": "construção.",
+          "icone": "caixa",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "fala": "Depois, Glenn Ballard e Greg Howell criaram o Last Planner, o Último Planejador.",
+      "personagem": "leo-prancheta",
+      "texto": "Last Planner",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Last Planner",
+        "linha": "Glenn Ballard e Greg Howell",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "desliza",
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "planner,",
+          "icone": "lista"
+        },
+        {
+          "palavra": "planejador.",
+          "icone": "calendario",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "fala": "Quem executa planeja a semana junto e só promete o que consegue cumprir.",
+      "personagem": "leo-calendario",
+      "texto": "A semana",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "Seg",
+          "Ter",
+          "Qua",
+          "Qui",
+          "Sex"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "executa",
+          "icone": "equipe"
+        },
+        {
+          "palavra": "cumprir.",
+          "icone": "check",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "fala": "E a medida é simples: quanto do planejado foi feito de verdade.",
+      "personagem": "leo-explica",
+      "texto": "PPC",
+      "interface": {
+        "tipo": "medidor",
+        "titulo": "Planejado × feito",
+        "linha": ""
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "medida",
+          "icone": "grafico"
+        },
+        {
+          "palavra": "verdade.",
+          "icone": "check",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "fala": "Obra que funciona não depende de herói. Depende de processo.",
+      "personagem": "leo-feliz",
+      "texto": "Processo",
+      "interface": {
+        "tipo": "lista_riscada",
+        "itens": [
+          "Herói"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "pop",
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "herói.",
+          "icone": "estrela"
+        },
+        {
+          "palavra": "processo.",
+          "icone": "engrenagem",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "fala": "Na Gestão de Impacto, esse é o pilar de processos: atividades e entregas organizadas.",
+      "personagem": "leo-prancheta",
+      "texto": "Pilar Processos",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 3 · Processos",
+        "linha": "Atividades e entregas",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "impacto,",
+          "icone": "raio"
+        }
+      ],
+      "tela": {
+        "imagem": "telas/processos.png",
+        "personagem": "leo-prancheta",
+        "lado": "esq",
+        "alturaPersonagem": 940,
+        "rotulosY": 1420,
+        "rotulos": [
+          {
+            "palavra": "atividades",
+            "texto": "Atividades",
+            "icone": "lista"
+          },
+          {
+            "palavra": "entregas",
+            "texto": "Entregas",
+            "icone": "caixa"
+          }
+        ],
+        "de": "pilar"
+      }
+    },
+    {
+      "id": "c10",
+      "fala": "Planejar com quem executa, enxergar o que trava e tirar o desperdício.",
+      "personagem": "leo-explica",
+      "texto": "3 passos",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "Planejar junto",
+          "Enxergar o que trava",
+          "Tirar o desperdício"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "enxergar",
+          "icone": "olho"
+        },
+        {
+          "palavra": "trava",
+          "icone": "alerta",
+          "tom": "alerta"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "fala": "Gestão de Impacto. Processo antes do herói.",
+      "personagem": "leo-comemora",
+      "texto": "Gestão de Impacto",
+      "interface": null,
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "processo",
+          "icone": "engrenagem",
+          "texto": "Processo",
+          "tom": "ok"
+        }
+      ]
+    }
+  ],
+  "legenda": true,
+  "narracao": "trabalho/gi-lean-construction/narracao.mp3"
+}
