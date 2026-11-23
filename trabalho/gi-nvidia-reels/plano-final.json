@@ -1,0 +1,379 @@
+{
+  "projeto": "gi-nvidia-reels",
+  "titulo": "Nvidia: de onde vem a venda (Reels)",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30
+  },
+  "cores": {
+    "destaque": "#EE7533",
+    "tinta": "#1A1A1A",
+    "suave": "#69727D",
+    "fundoClaro": "#F6F3EF",
+    "fundoForte": "#EE7533"
+  },
+  "estilo_personagem": "personagem 3D fofo estilo animação de cinema (clay/vinil macio, cantos arredondados), olhos grandes expressivos, bochechas rosadas, bracinhos e perninhas curtos, luz de estúdio suave, corpo inteiro, centralizado, sozinho, sem texto, sem chão, sem sombra projetada, fundo branco liso #FFFFFF",
+  "personagens": {
+    "italo-feliz": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, sorrindo largo e acenando com uma mão",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-explica": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, falando animado e apontando com a mão aberta para o lado, como quem explica no palco",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-pensa": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, pensativo, com a mão no queixo e olhando para cima",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-comemora": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, comemorando com os dois braços para cima, muito feliz",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-pedido": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, no comercial: segurando um telefone no ouvido com uma mão e uma folha de pedido na outra, sorrindo e animado",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-microfone": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, no palco, falando ao microfone de mão com energia, a outra mão aberta para a plateia",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-fecha": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, segurando com uma mão uma pasta de contrato fechado e fazendo joinha com a outra, sorriso confiante de quem fechou a venda",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    }
+  },
+  "cenas": [
+    {
+      "id": "c01",
+      "personagem": null,
+      "texto": "Nvidia",
+      "interface": {
+        "tipo": "numero",
+        "de": 0,
+        "ate": 115.8,
+        "casas": 1,
+        "rotulo": "bilhões de dólares",
+        "chips": [
+          "em 3 meses",
+          "fonte: Nvidia"
+        ]
+      },
+      "fundo": "claro",
+      "fala": "A Nvidia faturou 115,8 bilhões de dólares em três meses.",
+      "marcas": [
+        {
+          "palavra": "faturou",
+          "icone": "dinheiro",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "personagem": "italo-explica",
+      "texto": "O dobro",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "+103% em um ano",
+        "linha": "a receita dobrou",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "fala": "O dobro do mesmo período do ano passado.",
+      "ajuste": {
+        "escala": 120,
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "dobro",
+          "icone": "grafico",
+          "texto": "2x",
+          "tom": "ok"
+        },
+        {
+          "palavra": "passado",
+          "icone": "calendario"
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "personagem": "italo-pensa",
+      "texto": "Esperado",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Esperado: US$ 109 bi",
+        "linha": "Entregue: US$ 115,8 bi",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "fala": "E o mercado esperava 109 bilhões.",
+      "ajuste": {
+        "escala": 120,
+        "movimento": "balanca"
+      },
+      "marcas": [
+        {
+          "palavra": "mercado",
+          "icone": "olho"
+        },
+        {
+          "palavra": "esperava",
+          "icone": "relogio"
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "personagem": "italo-feliz",
+      "texto": "Acima",
+      "interface": {
+        "tipo": "lista_riscada",
+        "itens": [
+          "só o esperado"
+        ]
+      },
+      "fundo": "claro",
+      "fala": "Ou seja, vendeu mais do que o mercado esperava.",
+      "ajuste": {
+        "escala": 120,
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "vendeu",
+          "icone": "dinheiro",
+          "texto": "Superou",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "personagem": null,
+      "texto": "Um lugar só",
+      "interface": {
+        "tipo": "numero",
+        "de": 0,
+        "ate": 92.9,
+        "casas": 1,
+        "rotulo": "% da receita",
+        "chips": [
+          "data center"
+        ]
+      },
+      "fundo": "claro",
+      "fala": "E quase tudo veio de um lugar só: data center, mais de 90%.",
+      "marcas": [
+        {
+          "palavra": "lugar",
+          "icone": "alvo"
+        },
+        {
+          "palavra": "center",
+          "icone": "caixa",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "fala": "E já projeta cerca de 130 bilhões para o próximo trimestre.",
+      "personagem": "italo-explica",
+      "texto": "Próximo trimestre",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Previsão da Nvidia",
+        "linha": "cerca de US$ 130 bi",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120,
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "projeta",
+          "icone": "grafico",
+          "tom": "ok"
+        },
+        {
+          "palavra": "trimestre",
+          "icone": "calendario"
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "personagem": "italo-explica",
+      "texto": "Onde está a venda",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "O que o cliente compra",
+          "Onde está a venda"
+        ]
+      },
+      "fundo": "claro",
+      "fala": "Eles sabem exatamente o que o cliente compra e onde está a venda.",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "cliente",
+          "icone": "pessoa"
+        },
+        {
+          "palavra": "venda",
+          "icone": "alvo",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "personagem": "italo-fecha",
+      "texto": "Pilar Vendas",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 4 · Vendas",
+        "linha": "Vender o que entrega",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "fala": "Na Gestão de Impacto, esse é o pilar de vendas: vender o que a empresa consegue entregar.",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "impacto",
+          "icone": "raio"
+        }
+      ],
+      "tela": {
+        "imagem": "telas/vendas.png",
+        "de": "pilar",
+        "personagem": "italo-fecha",
+        "lado": "dir",
+        "alturaPersonagem": 940,
+        "rotulosY": 1420,
+        "rotulos": [
+          {
+            "palavra": "vender",
+            "texto": "Vender",
+            "icone": "dinheiro"
+          },
+          {
+            "palavra": "entregar",
+            "texto": "Entregar",
+            "icone": "caixa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c09",
+      "personagem": "italo-pedido",
+      "texto": "3 passos",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "De onde vem a venda",
+          "Prometer o possível",
+          "Entregar acima"
+        ]
+      },
+      "fundo": "claro",
+      "fala": "Saber de onde vem cada venda, prometer o que dá pra cumprir e entregar acima.",
+      "ajuste": {
+        "escala": 115
+      },
+      "marcas": [
+        {
+          "palavra": "vem",
+          "icone": "alvo"
+        },
+        {
+          "palavra": "cumprir",
+          "icone": "check",
+          "tom": "ok"
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "personagem": "italo-feliz",
+      "texto": "Ítalo Rickes",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Ítalo Rickes",
+        "linha": "Vendas · Gestão de Impacto",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "fala": "Quem cuida disso na GI é o Ítalo Rickes.",
+      "ajuste": {
+        "escala": 120,
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "ítalo",
+          "texto": "Ítalo · Vendas"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "personagem": "italo-comemora",
+      "texto": "Gestão de Impacto",
+      "interface": null,
+      "fundo": "claro",
+      "fala": "Gestão de Impacto. Venda o que você entrega.",
+      "ajuste": {
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "venda",
+          "icone": "dinheiro",
+          "texto": "Venda"
+        },
+        {
+          "palavra": "entrega",
+          "icone": "caixa",
+          "texto": "Entrega"
+        }
+      ]
+    }
+  ],
+  "legenda": true,
+  "narracao": "trabalho/gi-nvidia-reels/narracao.mp3"
+}

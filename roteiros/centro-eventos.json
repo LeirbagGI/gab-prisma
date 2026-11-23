@@ -1,0 +1,174 @@
+{
+  "projeto": "centro-eventos",
+  "titulo": "Centro de Eventos GI — anúncio 1",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30
+  },
+  "cores": {
+    "destaque": "#EE7533",
+    "tinta": "#1A1A1A",
+    "suave": "#69727D",
+    "fundoClaro": "#F6F3EF",
+    "fundoForte": "#EE7533"
+  },
+  "estilo_personagem": "personagem 3D fofo estilo animação de cinema (clay/vinil macio, cantos arredondados), olhos grandes expressivos, bochechas rosadas, bracinhos e perninhas curtos, luz de estúdio suave, corpo inteiro, centralizado, sozinho, sem texto, sem chão, sem sombra projetada, fundo branco liso #FFFFFF",
+  "personagens": {
+    "calendario": "um calendário de mesa com uma data circulada em laranja, animado e orgulhoso, segurando uma caneta",
+    "microfone": "um microfone de mão prateado com olhos arregalados e boca aberta gritando, ondinhas de som saindo dele, em pânico",
+    "projetor": "um projetor de vídeo cinza claro, confuso, com um ponto de interrogação sobre a cabeça e um cabo solto na mão",
+    "cadeira": "uma cadeira de evento estofada laranja, saindo de fininho na ponta dos pés, olhando para trás com cara de culpada",
+    "cafe": "uma xícara de café branca tremendo de frio, com cachecol, flocos de neve em volta e o café dentro congelado",
+    "extintor": "um extintor de incêndio vermelho exausto e suado, com fuligem no rosto, ofegante",
+    "refletor": "um refletor de palco preto com a luz laranja acesa, confiante e sorridente, fazendo joinha",
+    "palco": "um palco de teatro em miniatura com cortinas laranja abertas, telão aceso e uma plateia de cadeirinhas, sorrindo feliz"
+  },
+  "cenas": [
+    {
+      "id": "c01",
+      "fala": "Marcou o evento da sua empresa? Então se prepara.",
+      "personagem": "calendario",
+      "texto": "Marcou o evento?",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Evento da empresa",
+        "linha": "Data confirmada"
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c02",
+      "fala": "O microfone que apita bem na hora da fala,",
+      "personagem": "microfone",
+      "texto": "O microfone que apita",
+      "interface": {
+        "tipo": "medidor",
+        "titulo": "Microfonia",
+        "linha": "nível 100%"
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c03",
+      "fala": "o projetor que não reconhece o notebook,",
+      "personagem": "projetor",
+      "texto": "O projetor que…",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "HDMI",
+        "linha": "Sem sinal",
+        "tom": "alerta"
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c04",
+      "fala": "a cadeira que faltou",
+      "personagem": "cadeira",
+      "texto": "A cadeira que faltou",
+      "interface": {
+        "tipo": "contador",
+        "titulo": "Cadeiras",
+        "de": 140,
+        "ate": 139
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c05",
+      "fala": "e o café que chegou frio.",
+      "personagem": "cafe",
+      "texto": "E o café… frio",
+      "interface": {
+        "tipo": "contador",
+        "titulo": "Café",
+        "de": 70,
+        "ate": 18,
+        "sufixo": " °C"
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c06",
+      "fala": "No fim, você não fez um evento. Você apagou incêndio.",
+      "personagem": "extintor",
+      "texto": "Você apagou incêndio",
+      "interface": {
+        "tipo": "lista_riscada",
+        "itens": [
+          "som",
+          "projetor",
+          "cadeiras",
+          "café"
+        ]
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c07",
+      "fala": "Por isso existe o Centro de Eventos GI, em Canela.",
+      "personagem": null,
+      "texto": "Centro de Eventos GI",
+      "interface": {
+        "tipo": "marca",
+        "linha": "Canela · RS"
+      },
+      "fundo": "forte"
+    },
+    {
+      "id": "c08",
+      "fala": "Palco, telão, som e luz já montados.",
+      "personagem": "refletor",
+      "texto": "Tudo já montado",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "Palco",
+          "Telão",
+          "Som",
+          "Luz"
+        ]
+      },
+      "fundo": "claro"
+    },
+    {
+      "id": "c09",
+      "fala": "Cento e quarenta lugares, recepção e equipe de apoio.",
+      "personagem": null,
+      "texto": null,
+      "interface": {
+        "tipo": "numero",
+        "de": 0,
+        "ate": 140,
+        "rotulo": "lugares",
+        "chips": [
+          "Recepção",
+          "Equipe de apoio"
+        ]
+      },
+      "fundo": "claro",
+      "ancora": "140 lugares recepcao"
+    },
+    {
+      "id": "c10",
+      "fala": "Você só traz o seu público.",
+      "personagem": "palco",
+      "texto": "Você só traz o público",
+      "interface": null,
+      "fundo": "claro"
+    },
+    {
+      "id": "c11",
+      "fala": "Centro de Eventos GI. Agende sua visita.",
+      "personagem": "refletor",
+      "texto": "Agende sua visita",
+      "interface": {
+        "tipo": "botao",
+        "titulo": "Agendar visita",
+        "linha": "Centro de Eventos GI · Canela"
+      },
+      "fundo": "claro"
+    }
+  ]
+}

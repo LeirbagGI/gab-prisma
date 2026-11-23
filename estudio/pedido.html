@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GAB Prisma Studio · Novo vídeo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root { --fundo: #0b0c0f; --painel: #13151a; --linha: #23262e; --texto: #e8e8ec; --suave: #8b8f9a; --roxo: #8f7cf7; --verde: #3ddc84; --laranja: #EE7533; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--fundo); color: var(--texto); font: 15px/1.5 Inter, system-ui, sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 14px; padding: 14px 22px; border-bottom: 1px solid var(--linha); }
+  .marca { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; }
+  .marca i { width: 26px; height: 12px; border-radius: 4px; background: linear-gradient(90deg, #ff7eb6, #8f7cf7, #3fd0c9); transform: skewX(-20deg); }
+  .marca small { color: var(--suave); font-weight: 500; }
+  header a { margin-left: auto; color: var(--suave); text-decoration: none; font-size: 13px; border: 1px solid var(--linha); padding: 6px 12px; border-radius: 8px; }
+  main { flex: 1; display: grid; place-items: center; padding: 30px 16px; }
+  .caixa { width: min(860px, 100%); }
+  h1 { font-size: 30px; letter-spacing: -0.02em; margin: 0 0 6px; }
+  p.sub { color: var(--suave); margin: 0 0 22px; }
+  textarea { width: 100%; min-height: 260px; resize: vertical; background: var(--painel); color: var(--texto); border: 1px solid var(--linha); border-radius: 14px; padding: 18px; font: 16px/1.6 Inter, sans-serif; outline: none; }
+  textarea:focus { border-color: var(--roxo); }
+  .linha { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+  .linha span { color: var(--suave); font-size: 13px; }
+  button { margin-left: auto; background: var(--roxo); color: #0b0c0f; border: 0; border-radius: 10px; padding: 13px 24px; font: 700 15px Inter, sans-serif; cursor: pointer; }
+  button:disabled { opacity: .4; cursor: default; }
+  .passos { margin-top: 26px; display: none; background: var(--painel); border: 1px solid var(--linha); border-radius: 14px; padding: 18px 20px; }
+  .passos.on { display: block; }
+  .etapa { display: flex; align-items: center; gap: 12px; padding: 8px 0; color: var(--suave); font-weight: 600; }
+  .etapa i { width: 12px; height: 12px; border-radius: 50%; background: #2e323c; flex: none; }
+  .etapa.ativa { color: var(--texto); } .etapa.ativa i { background: var(--roxo); box-shadow: 0 0 0 5px rgba(143,124,247,.2); animation: pulsa 1s infinite alternate; }
+  .etapa.feita { color: var(--texto); } .etapa.feita i { background: var(--verde); }
+  @keyframes pulsa { to { box-shadow: 0 0 0 9px rgba(143,124,247,.05); } }
+  .registro { margin-top: 10px; border-top: 1px solid var(--linha); padding-top: 10px; font: 500 12px/1.7 "JetBrains Mono", monospace; color: var(--suave); max-height: 160px; overflow: auto; }
+  .registro b { color: var(--laranja); font-weight: 500; margin-right: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="marca"><i></i>prisma <small>studio</small></div>
+  <a href="/" id="voltar">Abrir o estúdio</a>
+</header>
+<main>
+  <div class="caixa">
+    <h1>Novo vídeo</h1>
+    <p class="sub">Escreva o prompt do roteiro: assunto, para quem é, o que precisa aparecer. Nada começa antes disso. Depois o Claude escreve o roteiro, cria a voz e edita ao vivo no estúdio.</p>
+    <textarea id="prompt" placeholder="Ex.: vídeo de 40 s sobre vendas com o Ítalo, usando a notícia das vendas do GTA 6 e o pilar de vendas da Gestão de Impacto. Termina chamando para a imersão."></textarea>
+    <div class="linha"><span id="conta">0 caracteres</span><button id="enviar" disabled>Criar vídeo</button></div>
+    <div class="passos" id="passos">
+      <div class="etapa" data-e="novo"><i></i>Prompt recebido · esperando o Claude</div>
+      <div class="etapa" data-e="roteiro"><i></i>Escrevendo o roteiro</div>
+      <div class="etapa" data-e="voz"><i></i>Criando a voz</div>
+      <div class="etapa" data-e="editando"><i></i>Editando ao vivo no estúdio</div>
+      <div class="registro" id="registro"></div>
+    </div>
+  </div>
+</main>
+<script>
+  const ORDEM = ['novo', 'roteiro', 'voz', 'editando', 'pronto'];
+  const $ = (id) => document.getElementById(id);
+  const t = $('prompt'), b = $('enviar');
+  t.addEventListener('input', () => { $('conta').textContent = `${t.value.length} caracteres`; b.disabled = !t.value.trim(); });
+  let id = null;
+  function mostrar(p) {
+    $('passos').classList.add('on');
+    const k = ORDEM.indexOf(p.estado);
+    document.querySelectorAll('.etapa').forEach((e) => {
+      const j = ORDEM.indexOf(e.dataset.e);
+      e.className = 'etapa' + (j < k ? ' feita' : j === k ? ' ativa' : '');
+    });
+    $('registro').innerHTML = p.passos.slice().reverse().map((x) => `<div><b>${new Date(x.t).toLocaleTimeString('pt-BR')}</b>${x.msg.replace(/</g, '&lt;')}</div>`).join('');
+    // a edição acontece no estúdio, nesta mesma janela
+    if ((p.estado === 'editando' || p.estado === 'pronto') && p.projeto) location.href = `/?p=${encodeURIComponent(p.projeto)}`;
+  }
+  async function acompanhar() {
+    if (!id) return;
+    try { mostrar(await fetch(`/api/pedido/${id}`).then((r) => r.json())); } catch {}
+    setTimeout(acompanhar, 1000);
+  }
+  b.onclick = async () => {
+    b.disabled = true; t.disabled = true;
+    const p = await fetch('/api/pedido', {method: 'POST', body: JSON.stringify({texto: t.value})}).then((r) => r.json());
+    id = p.id; mostrar(p); acompanhar();
+  };
+
+// a janela do estúdio troca de página quando o Claude manda (sempre a mesma janela)
+(() => { let seq = null; const f = async () => { try { const j = await fetch('/api/janela?eu=1').then((r) => r.json()); if (seq === null) seq = j.seq; else if (j.seq !== seq) { seq = j.seq; if (j.url && j.url !== location.href) location.href = j.url; } } catch {} setTimeout(f, 1000); }; if (new URLSearchParams(location.search).get('ver') !== '1') f(); })();
+  // se já houver um pedido em andamento, continua mostrando
+  fetch('/api/pedido/ultimo').then((r) => r.json()).then((p) => {
+    if (p && !['pronto', 'editando'].includes(p.estado) && Date.now() - p.passos[0].t < 3600e3) { id = p.id; t.value = p.texto; t.disabled = true; b.disabled = true; mostrar(p); acompanhar(); }
+  }).catch(() => {});
+</script>
+</body>
+</html>

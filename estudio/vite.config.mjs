@@ -1,0 +1,209 @@
+// Estúdio do GAB Prisma: o editor (igual ao "Prisma Studio" do reel) + a API que mexe no motor.
+// Sobe com ./estudio.sh (porta 4460).
+import {defineConfig} from 'vite';
+import react from '@vitejs/plugin-react';
+import {spawn, execFileSync} from 'node:child_process';
+import {readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync, copyFileSync, unlinkSync} from 'node:fs';
+import {join, resolve, dirname, extname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+// pasta para onde o Exportar copia o vídeo (opcional): variável PRISMA_COPIA, definida em ~/.gab-prisma.env (fora do repositório)
+const DRIVE = process.env.PRISMA_COPIA || '';
+const roteiroArq = (n) => join(RAIZ, 'roteiros', `${n.replace(/[^a-z0-9-]/gi, '')}.json`);
+const lerJSON = (p) => JSON.parse(readFileSync(p, 'utf8'));
+
+// Agentes = trabalhos em segundo plano (Codex, whisper, render). O painel AGENTES lê daqui.
+const agentes = {};
+let seq = 0;
+const registro = [];
+const filas = {}; // ações do modo ao vivo, por projeto
+const donos = {};
+const janela = {url: '', seq: 0, visto: 0}; // só a última aba aberta do estúdio executa as ações
+const log = (agente, msg) => { registro.push({t: Date.now(), agente, msg}); if (registro.length > 200) registro.shift(); };
+function rodar(agente, cmd, args, {aoFim, progresso} = {}) {
+  if (agentes[agente]?.estado === 'trabalhando') return false;
+  const a = (agentes[agente] = {estado: 'trabalhando', inicio: Date.now(), progresso: 0, ultima: '', id: ++seq});
+  log(agente, `começou: ${args.slice(-2).join(' ')}`);
+  const p = spawn(cmd, args, {cwd: RAIZ});
+  const ler = (b) => {
+    for (const l of b.toString().split(/[\r\n]+/)) {
+      if (!l.trim()) continue;
+      a.ultima = l.slice(0, 160);
+      const pr = progresso?.(l);
+      if (pr != null) a.progresso = pr;
+      else if (!/^Rendered|^Encoded|^Bundl/.test(l)) log(agente, l.slice(0, 160));
+    }
+  };
+  p.stdout.on('data', ler);
+  p.stderr.on('data', ler);
+  p.on('close', (code) => {
+    a.estado = code === 0 ? 'pronto' : 'erro';
+    a.fim = Date.now();
+    log(agente, code === 0 ? 'terminou' : `falhou (código ${code})`);
+    if (code === 0) aoFim?.();
+  });
+  return true;
+}
+
+const corpo = (req) => new Promise((ok) => { const b = []; req.on('data', (c) => b.push(c)); req.on('end', () => ok(Buffer.concat(b))); });
+const json = (res, obj, st = 200) => { res.statusCode = st; res.setHeader('content-type', 'application/json'); res.end(JSON.stringify(obj)); };
+
+function ondas(proj) {
+  const wav = join(RAIZ, 'public', proj, 'narracao.wav');
+  if (!existsSync(wav)) return [];
+  const raw = execFileSync('ffmpeg', ['-v', 'error', '-i', wav, '-ac', '1', '-ar', '2000', '-f', 's16le', '-'], {maxBuffer: 1 << 28});
+  const n = raw.length / 2, passo = 20, out = []; // 100 picos por segundo
+  for (let i = 0; i < n; i += passo) { let m = 0; for (let k = i; k < Math.min(n, i + passo); k++) m = Math.max(m, Math.abs(raw.readInt16LE(k * 2))); out.push(+(m / 32768).toFixed(3)); }
+  return out;
+}
+
+function api() {
+  return {
+    name: 'prisma-api',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const u = new URL(req.url, 'http://x');
+        if (!u.pathname.startsWith('/api/')) return next();
+        const [, , rota, nome] = u.pathname.split('/');
+        try {
+          if (rota === 'projetos') return json(res, readdirSync(join(RAIZ, 'roteiros')).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)));
+          if (rota === 'projeto' && req.method === 'GET') {
+            const r = lerJSON(roteiroArq(nome));
+            const pub = join(RAIZ, 'public', r.projeto);
+            const tempo = existsSync(join(pub, 'tempo.json')) ? lerJSON(join(pub, 'tempo.json')) : null;
+            const personagens = existsSync(join(pub, 'personagens')) ? readdirSync(join(pub, 'personagens')).filter((f) => f.endsWith('.png')).map((f) => f.slice(0, -4)) : [];
+            const sons = readdirSync(join(RAIZ, 'public/sons')).filter((f) => f.endsWith('.wav')).map((f) => f.slice(0, -4));
+            return json(res, {roteiro: r, tempo, personagens, sons, ondas: ondas(r.projeto)});
+          }
+          if (rota === 'projeto' && req.method === 'PUT') {
+            const r = JSON.parse((await corpo(req)).toString());
+            // o servidor também escreve no roteiro (voz, personagem novo): não perder isso
+            const velho = existsSync(roteiroArq(nome)) ? lerJSON(roteiroArq(nome)) : {};
+            if (!r.narracao && velho.narracao) r.narracao = velho.narracao;
+            r.personagens = {...(velho.personagens || {}), ...(r.personagens || {})};
+            writeFileSync(roteiroArq(nome), JSON.stringify(r, null, 2));
+            return json(res, {ok: true});
+          }
+          if (rota === 'voz' && req.method === 'POST') {
+            // corpo = arquivo de áudio; vira a narração do projeto e realinha as cenas
+            const r = lerJSON(roteiroArq(nome));
+            const ext = (u.searchParams.get('ext') || 'mp3').replace(/[^a-z0-9]/g, '');
+            const dir = join(RAIZ, 'trabalho', r.projeto); mkdirSync(dir, {recursive: true});
+            const arq = join(dir, `narracao-${Date.now()}.${ext}`);
+            writeFileSync(arq, await corpo(req));
+            r.narracao = arq.slice(RAIZ.length + 1);
+            writeFileSync(roteiroArq(nome), JSON.stringify(r, null, 2));
+            rodar('voz', 'node', ['ferramentas/alinhar.mjs', roteiroArq(nome), arq]);
+            return json(res, {ok: true});
+          }
+          if (rota === 'alinhar') {
+            const r = lerJSON(roteiroArq(nome));
+            const voz = join(RAIZ, r.narracao || `trabalho/${r.projeto}/narracao-provisoria.mp3`);
+            return json(res, {ok: rodar('voz', 'node', ['ferramentas/alinhar.mjs', roteiroArq(nome), voz])});
+          }
+          if (rota === 'personagem' && req.method === 'POST') {
+            const {nome: pn, descricao, refazer} = JSON.parse((await corpo(req)).toString());
+            const chave = pn.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
+            const r = lerJSON(roteiroArq(nome));
+            if (descricao) r.personagens[chave] = descricao;
+            writeFileSync(roteiroArq(nome), JSON.stringify(r, null, 2));
+            const png = join(RAIZ, 'public', r.projeto, 'personagens', `${chave}.png`);
+            if (refazer && existsSync(png)) {
+              mkdirSync(join(RAIZ, 'trabalho', r.projeto, 'antigos'), {recursive: true});
+              copyFileSync(png, join(RAIZ, 'trabalho', r.projeto, 'antigos', `${chave}-${Date.now()}.png`));
+              unlinkSync(png);
+              execFileSync('rm', ['-rf', join(RAIZ, 'trabalho', r.projeto, chave)]);
+            }
+            return json(res, {ok: rodar(`personagem:${chave}`, 'zsh', ['ferramentas/personagens.sh', roteiroArq(nome), chave]), chave});
+          }
+          if (rota === 'exportar') {
+            const r = lerJSON(roteiroArq(nome));
+            const saida = join(RAIZ, 'saida', `${r.projeto}.mp4`);
+            const ok = rodar('exportar', 'node', ['ferramentas/render.mjs', roteiroArq(nome), saida], {
+              progresso: (l) => { const m = l.match(/Rendered (\d+)\/(\d+)/); return m ? +m[1] / +m[2] : null; },
+              aoFim: () => {
+                try { if (DRIVE && existsSync(DRIVE)) { const d = join(DRIVE, `reel-prisma-${r.projeto}-${new Date().toLocaleString('sv-SE').slice(0, 16).replace(' ', '-').replace(':', 'h')}.mp4`); copyFileSync(saida, d); log('exportar', `copiado para o Drive: ${d.split('/').pop()}`); } } catch (e) { log('exportar', 'não copiei para o Drive: ' + e.message); }
+              },
+            });
+            return json(res, {ok, saida});
+          }
+          if (rota === 'acoes' && req.method === 'POST') {
+            const lista = JSON.parse((await corpo(req)).toString());
+            const f = (filas[nome] ??= []);
+            for (const a of [].concat(lista)) f.push({...a, n: f.length + 1});
+            return json(res, {ok: true, ultimo: f.length});
+          }
+          if (rota === 'acoes') {
+            const f = filas[nome] ?? [];
+            const desde = +u.searchParams.get('desde');
+            const tab = u.searchParams.get('tab');
+            if (u.searchParams.get('registrar')) donos[nome] = tab;
+            if (donos[nome] && tab !== donos[nome]) return json(res, {ultimo: f.length, acoes: [], dono: false});
+            return json(res, desde < 0 ? {ultimo: f.length, acoes: []} : {ultimo: f.length, acoes: f.slice(desde)});
+          }
+          if (rota === 'log') { const {agente, msg} = JSON.parse((await corpo(req)).toString()); log(agente, msg); return json(res, {ok: true}); }
+          if (rota === 'voz-local') {
+            // plano = roteiro com todas as falas; a voz entra antes das cenas e cada cena nasce no seu tempo
+            const {arquivo, plano} = JSON.parse((await corpo(req)).toString());
+            const r = lerJSON(roteiroArq(nome));
+            const abs = resolve(RAIZ, arquivo);
+            const absPlano = plano ? resolve(RAIZ, plano) : roteiroArq(nome);
+            if (!abs.startsWith(RAIZ) || !existsSync(abs) || !absPlano.startsWith(RAIZ) || !existsSync(absPlano)) return json(res, {erro: 'arquivo não existe'}, 400);
+            r.narracao = abs.slice(RAIZ.length + 1);
+            writeFileSync(roteiroArq(nome), JSON.stringify(r, null, 2));
+            return json(res, {ok: rodar('voz', 'node', ['ferramentas/alinhar.mjs', absPlano, abs])});
+          }
+          if (rota === 'agentes') return json(res, {agentes, registro: registro.slice(-60)});
+          if (rota === 'fonte') return json(res, {texto: readFileSync(join(RAIZ, 'src', 'Filme.tsx'), 'utf8')});
+          if (rota === 'abrir') { spawn('open', ['-R', join(RAIZ, 'saida')]); return json(res, {ok: true}); }
+          // A janela do estúdio (Chrome próprio) obedece aqui: o Claude troca o endereço dela sem abrir outra
+          if (rota === 'janela') {
+            if (req.method === 'POST') { const {url} = JSON.parse((await corpo(req)).toString()); janela.url = url; janela.seq++; return json(res, janela); }
+            if (u.searchParams.get('eu')) janela.visto = Date.now(); // a janela do estúdio está viva
+            return json(res, janela);
+          }
+          // Pedido de vídeo (página /pedido.html): o Gabriel escreve o prompt do roteiro; o Claude recebe
+          // (ferramentas/esperar-pedido.mjs), escreve o roteiro, gera a voz e edita ao vivo. Nada avança sem o prompt.
+          if (rota === 'pedido') {
+            const dir = join(RAIZ, 'trabalho', 'pedidos'); mkdirSync(dir, {recursive: true});
+            if (req.method === 'POST' && !nome) {
+              const {texto} = JSON.parse((await corpo(req)).toString());
+              if (!texto || !texto.trim()) return json(res, {erro: 'prompt vazio'}, 400);
+              const id = new Date().toLocaleString('sv-SE').replace(/[^0-9]/g, '').slice(0, 14);
+              const p = {id, texto: texto.trim(), estado: 'novo', passos: [{t: Date.now(), msg: 'prompt recebido'}], projeto: null};
+              writeFileSync(join(dir, `${id}.json`), JSON.stringify(p, null, 2));
+              log('roteiro', 'novo pedido de vídeo: ' + texto.trim().slice(0, 80));
+              return json(res, p);
+            }
+            if (req.method === 'POST' && nome) {
+              // atualização de estado (Claude): {estado, msg, projeto}
+              const arq = join(dir, `${nome.replace(/[^0-9]/g, '')}.json`);
+              const p = lerJSON(arq);
+              const {estado, msg, projeto} = JSON.parse((await corpo(req)).toString());
+              if (estado) p.estado = estado;
+              if (projeto) p.projeto = projeto;
+              if (msg) { p.passos.push({t: Date.now(), msg}); log('roteiro', msg); }
+              writeFileSync(arq, JSON.stringify(p, null, 2));
+              return json(res, p);
+            }
+            const ids = readdirSync(dir).filter((f) => f.endsWith('.json')).sort();
+            if (nome === 'ultimo') return json(res, ids.length ? lerJSON(join(dir, ids[ids.length - 1])) : null);
+            if (nome) return json(res, lerJSON(join(dir, `${nome.replace(/[^0-9]/g, '')}.json`)));
+            return json(res, ids.slice(-20).map((f) => lerJSON(join(dir, f))));
+          }
+          json(res, {erro: 'rota não existe'}, 404);
+        } catch (e) {
+          json(res, {erro: String(e.message || e)}, 500);
+        }
+      });
+    },
+  };
+}
+
+export default defineConfig({
+  root: join(RAIZ, 'estudio'),
+  publicDir: join(RAIZ, 'public'),
+  plugins: [react(), api()],
+  server: {port: 4460, strictPort: true, fs: {allow: [RAIZ]}, watch: {ignored: ['**/saida/**', '**/trabalho/**', '**/roteiros/**']}},
+});

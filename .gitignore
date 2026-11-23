@@ -1,0 +1,18 @@
+node_modules/
+saida/
+.DS_Store
+# trabalho: rascunhos, fotos de referência, perfil do Chrome do estúdio, narrações brutas
+trabalho/*
+!trabalho/*/
+trabalho/*/*
+!trabalho/*/plano-final.json
+trabalho/chrome-estudio/
+trabalho/pedidos/
+trabalho/revisao/
+trabalho/refs/
+# binários compilados (o instalar.sh compila a partir dos .swift)
+ferramentas/janela
+ferramentas/recortar
+ferramentas/clique
+*.log
+.env*

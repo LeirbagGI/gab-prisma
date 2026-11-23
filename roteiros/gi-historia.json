@@ -1,0 +1,567 @@
+{
+  "projeto": "gi-historia",
+  "titulo": "Gestão de Impacto — quem somos",
+  "formato": {
+    "largura": 1080,
+    "altura": 1920,
+    "fps": 30
+  },
+  "cores": {
+    "destaque": "#EE7533",
+    "tinta": "#1A1A1A",
+    "suave": "#69727D",
+    "fundoClaro": "#F6F3EF",
+    "fundoForte": "#EE7533"
+  },
+  "estilo_personagem": "personagem 3D fofo estilo animação de cinema (clay/vinil macio, cantos arredondados), olhos grandes expressivos, bochechas rosadas, bracinhos e perninhas curtos, luz de estúdio suave, corpo inteiro, centralizado, sozinho, sem texto, sem chão, sem sombra projetada, fundo branco liso #FFFFFF",
+  "personagens": {
+    "italo-feliz": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, sorrindo largo e acenando com uma mão",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "leo-feliz": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, sorrindo largo e acenando com uma mão",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "italo-explica": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, falando animado e apontando com a mão aberta para o lado, como quem explica no palco",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "leo-explica": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, falando animado e apontando com a mão aberta para o lado, como quem explica no palco",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "italo-pensa": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, pensativo, com a mão no queixo e olhando para cima",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "leo-pensa": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, pensativo, com a mão no queixo e olhando para cima",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "italo-comemora": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, comemorando com os dois braços para cima, muito feliz",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "leo-comemora": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, comemorando com os dois braços para cima, muito feliz",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "italo-pedido": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, no comercial: segurando um telefone no ouvido com uma mão e uma folha de pedido na outra, sorrindo e animado",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "italo-microfone": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, no palco, falando ao microfone de mão com energia, a outra mão aberta para a plateia",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    },
+    "leo-preocupado": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, preocupado, suando, olhando para o relógio de pulso, com a outra mão na cabeça",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-prancheta": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, organizado e confiante, segurando uma prancheta com checklist marcado (sem letras legíveis) e uma caneta",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "leo-calendario": {
+      "descricao": "o Leo, homem de cabelo escuro penteado para trás, barba escura com fios grisalhos, sem óculos, de blazer preto e camisa preta, segurando um calendário de mesa grande com uma data circulada em laranja (sem números legíveis), sorrindo",
+      "refs": [
+        "trabalho/refs/leo-retrato.jpg",
+        "trabalho/refs/leo-corpo.jpg"
+      ]
+    },
+    "italo-fecha": {
+      "descricao": "o Ítalo, homem de cabeça raspada, barba ruiva farta e óculos redondos de aro escuro, de blazer bege e camisa azul-marinho, segurando com uma mão uma pasta de contrato fechado e fazendo joinha com a outra, sorriso confiante de quem fechou a venda",
+      "refs": [
+        "trabalho/refs/italo-retrato.jpg",
+        "trabalho/refs/italo-corpo.jpg"
+      ]
+    }
+  },
+  "cenas": [
+    {
+      "id": "c01",
+      "fala": "Um pedido chega no comercial, passa pra operação e depende da equipe pra ser entregue.",
+      "personagem": "italo-pedido",
+      "texto": "Um pedido chega…",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "Comercial",
+          "Operação",
+          "Equipe"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "pedido",
+          "icone": "documento"
+        },
+        {
+          "palavra": "comercial",
+          "icone": "telefone"
+        },
+        {
+          "palavra": "entregue",
+          "icone": "caixa",
+          "tom": "ok"
+        }
+      ],
+      "tela": {
+        "imagem": "telas/fluxo.png",
+        "de": "comercial",
+        "lado": "esq",
+        "deslocY": 60,
+        "rotulosY": 0,
+        "rotulos": [
+          {
+            "palavra": "comercial",
+            "texto": "Comercial",
+            "icone": "telefone",
+            "y": 430
+          },
+          {
+            "palavra": "operacao",
+            "texto": "Operação",
+            "icone": "engrenagem",
+            "y": 990
+          },
+          {
+            "palavra": "equipe",
+            "texto": "Equipe",
+            "icone": "equipe",
+            "y": 1470
+          }
+        ]
+      }
+    },
+    {
+      "id": "c02",
+      "fala": "Quando falta clareza, o problema aparece no prazo, no custo ou no cliente.",
+      "personagem": "leo-preocupado",
+      "texto": "Falta clareza",
+      "interface": {
+        "tipo": "lista_riscada",
+        "itens": [
+          "prazo",
+          "custo",
+          "cliente"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "clareza",
+          "icone": "interrogacao",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "prazo",
+          "icone": "relogio",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "custo",
+          "icone": "dinheiro",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "cliente",
+          "icone": "pessoa",
+          "tom": "alerta"
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "fala": "É aí que entra o Gestão de Impacto.",
+      "personagem": null,
+      "texto": "Gestão de Impacto",
+      "interface": {
+        "tipo": "marca",
+        "linha": "Canela · RS"
+      },
+      "fundo": "forte",
+      "marcas": [
+        {
+          "palavra": "impacto",
+          "icone": "raio"
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "fala": "Desenvolvimento empresarial em quatro pilares.",
+      "personagem": null,
+      "texto": "Quatro pilares",
+      "interface": {
+        "tipo": "numero",
+        "de": 0,
+        "ate": 4,
+        "rotulo": "pilares",
+        "chips": [
+          "Mentalidade",
+          "Pessoas",
+          "Processos",
+          "Vendas"
+        ]
+      },
+      "fundo": "claro",
+      "marcas": [
+        {
+          "palavra": "desenvolvimento",
+          "icone": "seta",
+          "tom": "ok"
+        },
+        {
+          "palavra": "empresarial",
+          "icone": "grafico"
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "fala": "Mentalidade: como o empresário enxerga os problemas e decide.",
+      "personagem": "italo-pensa",
+      "texto": "Mentalidade",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 1",
+        "linha": "Como você decide",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "enxerga",
+          "icone": "olho"
+        },
+        {
+          "palavra": "problemas",
+          "icone": "alerta",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "decide",
+          "icone": "alvo",
+          "tom": "ok"
+        }
+      ],
+      "personagem2": "leo-pensa"
+    },
+    {
+      "id": "c06",
+      "fala": "Pessoas: liderança, responsabilidades e equipe.",
+      "personagem": "italo-explica",
+      "texto": "Pessoas",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 2",
+        "linha": "Liderança e equipe",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "balanca"
+      },
+      "marcas": [
+        {
+          "palavra": "lideranca",
+          "icone": "estrela"
+        },
+        {
+          "palavra": "responsabilidades",
+          "icone": "lista"
+        },
+        {
+          "palavra": "equipe",
+          "icone": "equipe",
+          "tom": "ok"
+        }
+      ],
+      "personagem2": "leo-explica"
+    },
+    {
+      "id": "c07",
+      "fala": "Processos: atividades e entregas organizadas.",
+      "personagem": "leo-prancheta",
+      "texto": "Processos",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 3",
+        "linha": "Entregas organizadas",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "desliza",
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "processos",
+          "texto": "Leo · Processos"
+        },
+        {
+          "palavra": "atividades",
+          "icone": "lista"
+        },
+        {
+          "palavra": "entregas",
+          "icone": "caixa"
+        },
+        {
+          "palavra": "organizadas",
+          "icone": "check",
+          "tom": "ok"
+        }
+      ],
+      "tela": {
+        "imagem": "telas/processos.png",
+        "personagem": "leo-prancheta",
+        "lado": "esq",
+        "alturaPersonagem": 940,
+        "rotulosY": 1420,
+        "rotulos": [
+          {
+            "palavra": "atividades",
+            "texto": "Atividades",
+            "icone": "lista"
+          },
+          {
+            "palavra": "entregas",
+            "texto": "Entregas",
+            "icone": "caixa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c08",
+      "fala": "Vendas: vender o que a empresa consegue entregar.",
+      "personagem": "italo-fecha",
+      "texto": "Vendas",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Pilar 4",
+        "linha": "Vender e entregar",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "vendas",
+          "texto": "Ítalo · Vendas"
+        },
+        {
+          "palavra": "vender",
+          "icone": "dinheiro",
+          "tom": "ok"
+        },
+        {
+          "palavra": "entregar",
+          "icone": "caixa",
+          "tom": "ok"
+        }
+      ],
+      "tela": {
+        "imagem": "telas/vendas.png",
+        "personagem": "italo-fecha",
+        "lado": "dir",
+        "alturaPersonagem": 940,
+        "rotulosY": 1420,
+        "rotulos": [
+          {
+            "palavra": "vender",
+            "texto": "Vender",
+            "icone": "dinheiro"
+          },
+          {
+            "palavra": "entregar",
+            "texto": "Entregar",
+            "icone": "caixa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c09",
+      "fala": "Quem conduz são Ítalo Rickes e Leonardo Oliveira.",
+      "personagem": "italo-feliz",
+      "texto": "Quem conduz",
+      "interface": {
+        "tipo": "checklist",
+        "itens": [
+          "Ítalo Rickes",
+          "Leonardo Oliveira"
+        ]
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "italo",
+          "texto": "Ítalo · Vendas"
+        },
+        {
+          "palavra": "leonardo",
+          "texto": "Leo · Processos"
+        }
+      ],
+      "personagem2": "leo-feliz"
+    },
+    {
+      "id": "c10",
+      "fala": "Tudo ao vivo, em imersões presenciais em Canela.",
+      "personagem": "italo-microfone",
+      "texto": "Imersão presencial",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Centro de Eventos GI",
+        "linha": "Canela · RS",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "vivo",
+          "texto": "● AO VIVO",
+          "tom": "alerta"
+        },
+        {
+          "palavra": "presenciais",
+          "icone": "equipe"
+        },
+        {
+          "palavra": "canela",
+          "icone": "pin",
+          "texto": "Canela · RS"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "fala": "A próxima turma é de vinte e nove de novembro a dois de dezembro.",
+      "personagem": "leo-calendario",
+      "texto": "Próxima turma",
+      "interface": {
+        "tipo": "aviso",
+        "titulo": "Imersão GI",
+        "linha": "29/11 a 02/12",
+        "tom": "ok"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "escala": 120
+      },
+      "marcas": [
+        {
+          "palavra": "turma",
+          "icone": "equipe"
+        },
+        {
+          "palavra": "novembro",
+          "texto": "29/11"
+        },
+        {
+          "palavra": "dezembro",
+          "texto": "02/12"
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "fala": "Gestão de Impacto. Mentalidade, pessoas, processos e vendas.",
+      "personagem": "italo-comemora",
+      "texto": "Gestão de Impacto",
+      "interface": {
+        "tipo": "botao",
+        "titulo": "Conhecer a Imersão GI",
+        "linha": "gestaoimpacto.com"
+      },
+      "fundo": "claro",
+      "ajuste": {
+        "movimento": "pop"
+      },
+      "marcas": [
+        {
+          "palavra": "mentalidade",
+          "icone": "lampada",
+          "texto": "Mentalidade"
+        },
+        {
+          "palavra": "pessoas",
+          "icone": "equipe",
+          "texto": "Pessoas"
+        },
+        {
+          "palavra": "processos",
+          "icone": "engrenagem",
+          "texto": "Processos"
+        },
+        {
+          "palavra": "vendas",
+          "icone": "grafico",
+          "texto": "Vendas"
+        }
+      ],
+      "personagem2": "leo-comemora"
+    }
+  ],
+  "legenda": true,
+  "narracao": "trabalho/gi-historia/narracao.mp3"
+}
